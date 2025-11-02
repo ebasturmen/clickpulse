@@ -6,3 +6,5 @@
 <script src="{{ URL::asset('build/js/plugins.js') }}"></script>
 @yield('script')
 @yield('script-bottom')
+<!-- Livewire Scripts -->
+@livewireScripts
