@@ -59,92 +59,29 @@ if (isset($__slots)) unset($__slots);
                                 <h5 class="text-primary"><?php echo app('translator')->get('translation.login-title'); ?></h5>
                                 <p class="text-muted"><?php echo app('translator')->get('translation.login-description'); ?></p>
                             </div>
-                            <div class="p-2 mt-4">
-                                <form action="<?php echo e(route('login')); ?>" method="POST">
-                                    <?php echo csrf_field(); ?>
-                                    <div class="mb-3">
-                                        <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control <?php $__errorArgs = ['email'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" value="<?php echo e(old('email', 'admin@themesbrand.com')); ?>" id="username" name="email" placeholder="Enter username">
-                                        <?php $__errorArgs = ['email'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong><?php echo e($message); ?></strong>
-                                            </span>
-                                        <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                    </div>
+                            <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('login-form');
 
-                                    <div class="mb-3">
-                                        <div class="float-end">
-                                            <a href="<?php echo e(route('password.update')); ?>" class="text-muted">Forgot password?</a>
-                                        </div>
-                                        <label class="form-label" for="password-input">Password <span class="text-danger">*</span></label>
-                                        <div class="position-relative auth-pass-inputgroup mb-3">
-                                            <input type="password" class="form-control pe-5 password-input <?php $__errorArgs = ['password'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" name="password" placeholder="Enter password" id="password-input" value="12345678">
-                                            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                                            <?php $__errorArgs = ['password'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong><?php echo e($message); ?></strong>
-                                                </span>
-                                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                        </div>
-                                    </div>
+$__html = app('livewire')->mount($__name, $__params, 'lw-2905269411-1', $__slots ?? [], get_defined_vars());
 
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
-                                        <label class="form-check-label" for="auth-remember-check">Remember me</label>
-                                    </div>
+echo $__html;
 
-                                    <div class="mt-4">
-                                        <button class="btn btn-success w-100" type="submit">Sign In</button>
-                                    </div>
-
-                                    <div class="mt-4 text-center">
-                                        <div class="signin-other-title">
-                                            <h5 class="fs-13 mb-4 title">Sign In with</h5>
-                                        </div>
-                                        <div>
-                                            <button type="button" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-facebook-fill fs-16"></i></button>
-                                            <button type="button" class="btn btn-danger btn-icon waves-effect waves-light"><i class="ri-google-fill fs-16"></i></button>
-                                            <button type="button" class="btn btn-dark btn-icon waves-effect waves-light"><i class="ri-github-fill fs-16"></i></button>
-                                            <button type="button" class="btn btn-info btn-icon waves-effect waves-light"><i class="ri-twitter-fill fs-16"></i></button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
                         </div>
                         <!-- end card body -->
                     </div>
                     <!-- end card -->
 
                     <div class="mt-4 text-center">
-                        <p class="mb-0">Don't have an account ? <a href="register" class="fw-semibold text-primary text-decoration-underline"> Signup </a> </p>
+                        <p class="mb-0"><?php echo app('translator')->get('translation.no-account'); ?> <a href="register" class="fw-semibold text-primary text-decoration-underline"><?php echo app('translator')->get('translation.signup'); ?></a></p>
                     </div>
 
                 </div>
@@ -161,7 +98,7 @@ unset($__errorArgs, $__bag); ?>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="text-center">
-                        <p class="mb-0 text-muted">&copy; <script>document.write(new Date().getFullYear())</script> Velzon. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand</p>
+                        <p class="mb-0 text-muted">&copy; <script>document.write(new Date().getFullYear())</script> <?php echo app('translator')->get('translation.footer-text'); ?></p>
                     </div>
                 </div>
             </div>
