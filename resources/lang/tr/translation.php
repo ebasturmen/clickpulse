@@ -234,8 +234,8 @@ return [
     "links" => "Links",
     "range-area" => "Range Area",
     "funnel" => "Funnel",
-    "login-subtitle" => "Improve your traffic quality and save on your ad spend in just minutes.",
-    "login-title" => "Login to your account",
-    "login-description" => "Login to your account to manage your websites.",
+    "login-subtitle" => "Trafik kalitenizi artırın ve reklam harcamalarınızdan dakikalar içinde tasarruf edin.",
+    "login-title" => "Hesabınıza giriş yapın",
+    "login-description" => "Web sitelerinizi yönetmek için hesabınıza giriş yapın.",
 ];
 ?>
