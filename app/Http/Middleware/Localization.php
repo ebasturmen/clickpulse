@@ -18,9 +18,17 @@ class Localization
     public function handle(Request $request, Closure $next)
     {
         /* Set new lang with the use of session */
-        if (session()->has('lang')) {
-            App::setLocale(session()->get('lang'));
+        // Get locale from session
+        $locale = $request->session()->get('lang', 'en');
+        
+        // Validate locale
+        if (!in_array($locale, ['en', 'tr'])) {
+            $locale = 'en';
         }
+        
+        // Set application locale
+        App::setLocale($locale);
+        
         return $next($request);
     }
 }

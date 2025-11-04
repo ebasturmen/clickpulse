@@ -42,10 +42,30 @@ class HomeController extends Controller
     /*Language Translation*/
     public function lang($locale)
     {
-        if ($locale) {
+        if ($locale && in_array($locale, ['en', 'tr'])) {
+            // Set locale immediately
             App::setLocale($locale);
-            Session::put('lang', $locale);
-            Session::save();
+            
+            // Save to session - multiple methods to ensure it works
+            $session = request()->session();
+            $session->put('lang', $locale);
+            $session->save();
+            
+            // Also set via helper
+            session(['lang' => $locale]);
+            
+            // Always redirect to login if called from login.lang route
+            if (request()->routeIs('login.lang')) {
+                // Redirect with lang parameter so middleware can read it
+                return redirect()->to('/login?lang=' . $locale)->with('locale', $locale);
+            }
+            
+            // Check referer for login page
+            $referer = request()->headers->get('referer', '');
+            if (str_contains($referer, '/login')) {
+                return redirect()->to('/login?lang=' . $locale)->with('locale', $locale);
+            }
+            
             return redirect()->back()->with('locale', $locale);
         } else {
             return redirect()->back();

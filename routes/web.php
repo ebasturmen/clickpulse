@@ -13,9 +13,11 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Auth::routes();
-//Language Translation
+//Language Translation - Must be before Auth::routes() to avoid route conflicts
 Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);
+Route::get('login/{locale}', [App\Http\Controllers\HomeController::class, 'lang'])->name('login.lang');
+
+Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
 

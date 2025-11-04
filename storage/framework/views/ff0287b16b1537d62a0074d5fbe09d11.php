@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('title'); ?>
 <?php echo app('translator')->get('translation.signin'); ?>
 <?php $__env->stopSection(); ?>
@@ -34,6 +33,25 @@
 
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6 col-xl-5">
+                    <!-- Language Selector -->
+                    <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('language-selector');
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-2905269411-0', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                    <!-- End Language Selector -->
+
                     <div class="card mt-4">
 
                         <div class="card-body p-4">
