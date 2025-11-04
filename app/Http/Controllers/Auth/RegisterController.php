@@ -54,6 +54,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'avatar' => ['required', 'image' ,'mimes:jpg,jpeg,png','max:1024'],
+            'payment_method' => ['required', 'string'], // Stripe payment method token
         ]);
     }
 
@@ -65,7 +66,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        // return request()->file('avatar');
+        // Handle avatar upload
         if (request()->has('avatar')) {
             $avatar = request()->file('avatar');
             $avatarName = time() . '.' . $avatar->getClientOriginalExtension();
@@ -73,11 +74,40 @@ class RegisterController extends Controller
             $avatar->move($avatarPath, $avatarName);
         }
 
-        return User::create([
+        // Create user
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'avatar' =>  $avatarName,
+            'avatar' => $avatarName,
         ]);
+
+        // Create Stripe customer and setup subscription with 14-day trial
+        try {
+            // Create Stripe customer
+            $user->createAsStripeCustomer();
+
+            // Add payment method
+            $user->updateDefaultPaymentMethod($data['payment_method']);
+
+            // Create subscription with 14-day trial
+            // Note: You'll need to create a price in Stripe dashboard first
+            // Replace 'price_xxxxx' with your actual Stripe price ID
+            $priceId = config('services.stripe.default_price_id', env('STRIPE_PRICE_ID'));
+            
+            if ($priceId) {
+                $user->newSubscription('default', $priceId)
+                    ->trialDays(14)
+                    ->create($data['payment_method']);
+            }
+        } catch (\Exception $e) {
+            // Log error but don't fail registration
+            \Log::error('Stripe customer creation failed: ' . $e->getMessage());
+            // Optionally delete user if Stripe setup is critical
+            // $user->delete();
+            // throw $e;
+        }
+
+        return $user;
     }
 }
