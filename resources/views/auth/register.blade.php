@@ -59,51 +59,7 @@
                         </div>
                     </div>
                     <div class="col-lg-12">
-                        <div class="card overflow-hidden m-0">
-                            <div class="row justify-content-center g-0">
-                                <div class="col-lg-6">
-                                    <div class="p-lg-5 p-4 auth-one-bg-small h-100">
-                                        <div class="bg-overlay"></div>
-                                        <div class="position-relative h-100 d-flex flex-column">
-                                            <div class="mb-4 text-center">
-                                                <img class="mb-1" src="{{ URL::asset('build/images/google.png') }}"alt="Google API" height="70">
-                                                <h5 class="mb-2">Google API verified</h5>
-                                                <h2>More than a free trial</h2>
-                                                <h2 class="col--grad-green">An opportunity for better traffic</h2>
-                                                <h5 class="mt-3 fs-14 fw-medium">We help you block fake clicks, bots, and invalid traffic. And we’re ready to show you the data for all this with automated reports. All set up and ready to 🚀 in minutes.</h5>
-                                                <h5 class="mt-4">Easy Installation, No developer needed</h5>
-                                            </div>
-                                            <div class="mt-auto">
-                                                <div class="mb-3">
-                                                    <i class="ri-double-quotes-l display-5 text-success"></i>
-                                                </div>
-
-                                                <div id="qoutescarouselIndicators" class="carousel slide"
-                                                     data-bs-ride="carousel">
-                                                    <div class="carousel-indicators">
-                                                        <button type="button" data-bs-target="#qoutescarouselIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                                        <button type="button" data-bs-target="#qoutescarouselIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                                        <button type="button" data-bs-target="#qoutescarouselIndicators"data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                                    </div>
-                                                    <div class="carousel-inner text-center text-black-50 pb-5">
-                                                        <div class="carousel-item active" wire:ignore.self>
-                                                            <p class="fs-15 fst-italic">"Just copy and paste a few lines of code into your website."</p>
-                                                        </div>
-                                                        <div class="carousel-item" wire:ignore.self>
-                                                            <p class="fs-15 fst-italic">"Just copy and paste a few lines of code into your website."</p>
-                                                        </div>
-                                                        <div class="carousel-item" wire:ignore.self>
-                                                            <p class="fs-15 fst-italic">"Just copy and paste a few lines of code into your website."</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
+                        @livewire('register-form')
                     </div>
                 </div>
                 <!-- end row -->
@@ -135,6 +91,7 @@
     <script src="{{ URL::asset('build/libs/particles.js/particles.js') }}"></script>
     <script src="{{ URL::asset('build/js/pages/particles.app.js') }}"></script>
     <script src="{{ URL::asset('build/js/pages/form-validation.init.js') }}"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
         function updateStepNavigation(step) {
             document.querySelectorAll('.step-nav-item').forEach(function(item) {
@@ -148,8 +105,15 @@
 
         // Livewire event listener
         document.addEventListener('livewire:init', () => {
+            let stripe, elements, cardElement;
+            const stripeKey = '{{ config("services.stripe.key", env("STRIPE_KEY")) }}';
+
             Livewire.on('step-updated', (data) => {
                 updateStepNavigation(data.step);
+
+                if (data.step === 3 && !cardElement && stripeKey) {
+                    initializeStripe();
+                }
             });
 
             // Component her güncellendiğinde step'i kontrol et
@@ -159,18 +123,94 @@
                     if (stepElement) {
                         const step = parseInt(stepElement.getAttribute('data-step'));
                         updateStepNavigation(step);
+
+                        if (step === 3 && !cardElement && stripeKey) {
+                            setTimeout(() => initializeStripe(), 100);
+                        }
                     }
                 }
             });
-        });
 
-        // İlk yüklemede step'i kontrol et
-        document.addEventListener('DOMContentLoaded', function() {
+            function initializeStripe() {
+                if (!stripeKey) {
+                    console.error('Stripe key not found');
+                    return;
+                }
+
+                stripe = Stripe(stripeKey);
+                elements = stripe.elements();
+
+                const cardElementContainer = document.getElementById('card-element');
+                if (!cardElementContainer) return;
+
+                // Clear existing element if any
+                if (cardElement) {
+                    cardElement.unmount();
+                }
+
+                cardElement = elements.create('card', {
+                    style: {
+                        base: {
+                            fontSize: '16px',
+                            color: '#424770',
+                            '::placeholder': {
+                                color: '#aab7c4',
+                            },
+                        },
+                        invalid: {
+                            color: '#9e2146',
+                        },
+                    },
+                });
+
+                cardElement.mount('#card-element');
+
+                cardElement.on('change', function(event) {
+                    if (event.error) {
+                        const component = Livewire.find('register-form');
+                        if (component) {
+                            component.set('payment_method_id', '');
+                        }
+                    }
+                });
+
+                // Handle finish button click
+                const finishButton = document.getElementById('finish-button');
+                if (finishButton) {
+                    finishButton.addEventListener('click', async function(e) {
+                        e.preventDefault();
+
+                        if (!cardElement) return;
+
+                        const { paymentMethod, error } = await stripe.createPaymentMethod({
+                            type: 'card',
+                            card: cardElement,
+                        });
+
+                        const component = Livewire.find('register-form');
+                        if (!component) return;
+
+                        if (error) {
+                            component.set('payment_method_id', '');
+                            component.addError('payment_method_id', error.message);
+                        } else {
+                            component.set('payment_method_id', paymentMethod.id);
+                            component.call('finishRegistration');
+                        }
+                    });
+                }
+            }
+
+            // Initialize on step 3 if already there
             setTimeout(function() {
                 const registerForm = document.querySelector('[data-step]');
                 if (registerForm) {
                     const step = parseInt(registerForm.getAttribute('data-step'));
                     updateStepNavigation(step);
+
+                    if (step === 3 && stripeKey) {
+                        setTimeout(() => initializeStripe(), 500);
+                    }
                 }
             }, 100);
         });
