@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('title'); ?>
     <?php echo app('translator')->get('translation.signup'); ?>
 <?php $__env->stopSection(); ?>
@@ -25,206 +24,100 @@
                         <div class="text-center mt-sm-5 mb-4 text-white-50">
                             <div>
                                 <a href="index" class="d-inline-block auth-logo">
-                                    <img src="<?php echo e(URL::asset('build/images/logo-light.png')); ?>" alt="" height="20">
+                                    <img src="<?php echo e(URL::asset('build/images/logo-light.png')); ?>" alt="" height="80">
                                 </a>
                             </div>
-                            <p class="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
+                            <p class="mt-3 fs-15 fw-medium"><?php echo app('translator')->get('translation.register-subtitle'); ?></p>
                         </div>
-                    </div>
-                </div>
-                <!-- end row -->
 
-                <div class="row justify-content-center">
-                    <div class="col-md-8 col-lg-6 col-xl-5">
-                        <div class="card mt-4">
-
-                            <div class="card-body p-4">
-                                <div class="text-center mt-2">
-                                    <h5 class="text-primary">Create New Account</h5>
-                                    <p class="text-muted">Get your free velzon account now</p>
-                                </div>
-                                <div class="p-2 mt-4">
-                                    <form class="needs-validation" novalidate method="POST"
-                                        action="<?php echo e(route('register')); ?>" enctype="multipart/form-data">
-                                        <?php echo csrf_field(); ?>
-                                        <div class="mb-3">
-                                            <label for="useremail" class="form-label">Email <span
-                                                    class="text-danger">*</span></label>
-                                            <input type="email" class="form-control <?php $__errorArgs = ['email'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>"
-                                                name="email" value="<?php echo e(old('email')); ?>" id="useremail"
-                                                placeholder="Enter email address" required>
-                                            <?php $__errorArgs = ['email'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong><?php echo e($message); ?></strong>
-                                                </span>
-                                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                            <div class="invalid-feedback">
-                                                Please enter email
+                        <div class="row d-flex">
+                            <div class="col-6 ms-auto">
+                                <div class="step-arrow-nav mb-4" id="step-navigation">
+                                    <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <div class="nav-link step-nav-item" data-step="1">
+                                                <?php echo app('translator')->get('translation.register-step-my-account'); ?>
                                             </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="username" class="form-label">Username <span
-                                                    class="text-danger">*</span></label>
-                                            <input type="text" class="form-control <?php $__errorArgs = ['name'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>"
-                                                name="name" value="<?php echo e(old('name')); ?>" id="username"
-                                                placeholder="Enter username" required>
-                                            <?php $__errorArgs = ['name'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong><?php echo e($message); ?></strong>
-                                                </span>
-                                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                            <div class="invalid-feedback">
-                                                Please enter username
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <div class="nav-link step-nav-item" data-step="2">
+                                                <?php echo app('translator')->get('translation.register-step-subscription'); ?>
                                             </div>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="userpassword" class="form-label">Password <span
-                                                    class="text-danger">*</span></label>
-                                            <input type="password"
-                                                class="form-control <?php $__errorArgs = ['password'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" name="password"
-                                                id="userpassword" placeholder="Enter password" required>
-                                            <?php $__errorArgs = ['password'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong><?php echo e($message); ?></strong>
-                                                </span>
-                                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                            <div class="invalid-feedback">
-                                                Please enter password
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <div class="nav-link step-nav-item" data-step="3">
+                                                <?php echo app('translator')->get('translation.register-step-payment-information'); ?>
                                             </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="input-password">Confirm Password <span class="text-danger">*</span></label>
-                                            <input type="password"
-                                                class="form-control <?php $__errorArgs = ['password_confirmation'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>"
-                                                name="password_confirmation" id="input-password"
-                                                placeholder="Enter Confirm Password" required>
-
-                                            <div class="form-floating-icon">
-                                                <i data-feather="lock"></i>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="input-avatar">Avatar <span class="text-danger">*</span></label>
-                                            <input type="file" class="form-control <?php $__errorArgs = ['avatar'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>"
-                                                name="avatar" id="input-avatar" required>
-                                            <?php $__errorArgs = ['avatar'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong><?php echo e($message); ?></strong>
-                                                </span>
-                                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                            <div class="">
-                                                <i data-feather="file"></i>
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <p class="mb-0 fs-12 text-muted fst-italic">By registering you agree to the
-                                                Velzon <a href="#"
-                                                    class="text-primary text-decoration-underline fst-normal fw-medium">Terms
-                                                    of Use</a></p>
-                                        </div>
-
-                                        <div class="mt-3">
-                                            <button class="btn btn-success w-100" type="submit">Sign Up</button>
-                                        </div>
-
-                                        <div class="mt-3 text-center">
-                                            <div class="signin-other-title">
-                                                <h5 class="fs-13 mb-4 title text-muted">Create account with</h5>
-                                            </div>
-
-                                            <div>
-                                                <button type="button"
-                                                    class="btn btn-primary btn-icon waves-effect waves-light"><i
-                                                        class="ri-facebook-fill fs-16"></i></button>
-                                                <button type="button"
-                                                    class="btn btn-danger btn-icon waves-effect waves-light"><i
-                                                        class="ri-google-fill fs-16"></i></button>
-                                                <button type="button"
-                                                    class="btn btn-dark btn-icon waves-effect waves-light"><i
-                                                        class="ri-github-fill fs-16"></i></button>
-                                                <button type="button"
-                                                    class="btn btn-info btn-icon waves-effect waves-light"><i
-                                                        class="ri-twitter-fill fs-16"></i></button>
-                                            </div>
-                                        </div>
-                                    </form>
-
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
-                            <!-- end card body -->
-                        </div>
-                        <!-- end card -->
+                            <div class="col-3">
+                                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('language-selector');
 
-                        <div class="mt-4 text-center">
-                            <p class="mb-0">Already have an account ? <a href="auth-signin-basic"
-                                    class="fw-semibold text-primary text-decoration-underline"> Signin </a> </p>
-                        </div>
+$__html = app('livewire')->mount($__name, $__params, 'lw-4186140704-0', $__slots ?? [], get_defined_vars());
 
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="card overflow-hidden m-0">
+                            <div class="row justify-content-center g-0">
+                                <div class="col-lg-6">
+                                    <div class="p-lg-5 p-4 auth-one-bg-small h-100">
+                                        <div class="bg-overlay"></div>
+                                        <div class="position-relative h-100 d-flex flex-column">
+                                            <div class="mb-4 text-center">
+                                                <img class="mb-1" src="<?php echo e(URL::asset('build/images/google.png')); ?>"alt="Google API" height="70">
+                                                <h5 class="mb-2">Google API verified</h5>
+                                                <h2>More than a free trial</h2>
+                                                <h2 class="col--grad-green">An opportunity for better traffic</h2>
+                                                <h5 class="mt-3 fs-14 fw-medium">We help you block fake clicks, bots, and invalid traffic. And we’re ready to show you the data for all this with automated reports. All set up and ready to 🚀 in minutes.</h5>
+                                                <h5 class="mt-4">Easy Installation, No developer needed</h5>
+                                            </div>
+                                            <div class="mt-auto">
+                                                <div class="mb-3">
+                                                    <i class="ri-double-quotes-l display-5 text-success"></i>
+                                                </div>
+
+                                                <div id="qoutescarouselIndicators" class="carousel slide"
+                                                     data-bs-ride="carousel">
+                                                    <div class="carousel-indicators">
+                                                        <button type="button" data-bs-target="#qoutescarouselIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                                        <button type="button" data-bs-target="#qoutescarouselIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                                        <button type="button" data-bs-target="#qoutescarouselIndicators"data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                                    </div>
+                                                    <div class="carousel-inner text-center text-black-50 pb-5">
+                                                        <div class="carousel-item active" wire:ignore.self>
+                                                            <p class="fs-15 fst-italic">"Just copy and paste a few lines of code into your website."</p>
+                                                        </div>
+                                                        <div class="carousel-item" wire:ignore.self>
+                                                            <p class="fs-15 fst-italic">"Just copy and paste a few lines of code into your website."</p>
+                                                        </div>
+                                                        <div class="carousel-item" wire:ignore.self>
+                                                            <p class="fs-15 fst-italic">"Just copy and paste a few lines of code into your website."</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- end row -->
@@ -256,6 +149,46 @@ unset($__errorArgs, $__bag); ?>
     <script src="<?php echo e(URL::asset('build/libs/particles.js/particles.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('build/js/pages/particles.app.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('build/js/pages/form-validation.init.js')); ?>"></script>
+    <script>
+        function updateStepNavigation(step) {
+            document.querySelectorAll('.step-nav-item').forEach(function(item) {
+                if (parseInt(item.getAttribute('data-step')) === step) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // Livewire event listener
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('step-updated', (data) => {
+                updateStepNavigation(data.step);
+            });
+
+            // Component her güncellendiğinde step'i kontrol et
+            Livewire.hook('morph.updated', ({ component, el }) => {
+                if (component && component.fingerprint && component.fingerprint.name === 'register-form') {
+                    const stepElement = el.querySelector('[data-step]');
+                    if (stepElement) {
+                        const step = parseInt(stepElement.getAttribute('data-step'));
+                        updateStepNavigation(step);
+                    }
+                }
+            });
+        });
+
+        // İlk yüklemede step'i kontrol et
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                const registerForm = document.querySelector('[data-step]');
+                if (registerForm) {
+                    const step = parseInt(registerForm.getAttribute('data-step'));
+                    updateStepNavigation(step);
+                }
+            }, 100);
+        });
+    </script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.master-without-nav', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /var/www/html/resources/views/auth/register.blade.php ENDPATH**/ ?>

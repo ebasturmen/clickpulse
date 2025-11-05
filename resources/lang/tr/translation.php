@@ -253,5 +253,9 @@ return [
     "no-account" => "Hesabınız yok mu ?",
     "signup" => "Kayıt Ol",
     "footer-text" => "Clickpulse™. Tüm hakları saklıdır.",
+    "register-subtitle" => "Clickpulse'u neredeyse herhangi bir web sitesine 5 dakikadan kısa sürede kolayca kurun.",
+    "register-step-my-account" => "Hesabım",
+    "register-step-subscription" => "Abonelik",
+    "register-step-payment-information" => "Ödeme Bilgileri",
 ];
 ?>

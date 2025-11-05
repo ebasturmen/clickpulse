@@ -253,5 +253,9 @@ return [
     "no-account" => "Don't have an account ?",
     "signup" => "Signup",
     "footer-text" => "Clickpulse™. All rights reserved.",
+    "register-subtitle" => "Easily install Clickpulse on almost any website in less than 5 minutes.",
+    "register-step-my-account" => "My Account",
+    "register-step-subscription" => "Subscription",
+    "register-step-payment-information" => "Payment Information",
 ];
 ?>

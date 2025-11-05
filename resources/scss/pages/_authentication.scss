@@ -41,6 +41,24 @@
     }
 }
 
+.col--grad-green {
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(90deg,#21c268 33%,#04790a 66%);
+    -webkit-background-clip: text;
+    background-clip: text
+}
+
+.auth-one-bg-small{
+    background-image: url("../images/chat-bg-pattern.png");
+    background-position: center;
+    background-size: repeat;
+
+    .bg-overlay{
+        background: linear-gradient(to right, darken($primary, 6%), $primary);
+        opacity: 0.1;
+    }
+}
+
 .shape{
     position: absolute;
     bottom: 0;
@@ -139,3 +157,9 @@
         }
     }
 }
+/* Test comment */
+/* Test 2 */
+/* Watch test */
+/* Final test */
+/* Test after recreate */
+/* Auto-rebuild test */

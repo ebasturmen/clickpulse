@@ -28,7 +28,7 @@
                                     <img src="{{ URL::asset('build/images/logo-light.png') }}" alt="" height="80">
                                 </a>
                             </div>
-                            <p class="mt-3 fs-15 fw-medium">Easily install Clickpulse on almost any website in less than 5 minutes.</p>
+                            <p class="mt-3 fs-15 fw-medium">@lang('translation.register-subtitle')</p>
                         </div>
 
                         <div class="row d-flex">
@@ -37,17 +37,17 @@
                                     <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
                                         <li class="nav-item" role="presentation">
                                             <div class="nav-link step-nav-item" data-step="1">
-                                                My Account
+                                                @lang('translation.register-step-my-account')
                                             </div>
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <div class="nav-link step-nav-item" data-step="2">
-                                                Subscription
+                                                @lang('translation.register-step-subscription')
                                             </div>
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <div class="nav-link step-nav-item" data-step="3">
-                                                Payment Information
+                                                @lang('translation.register-step-payment-information')
                                             </div>
                                         </li>
                                     </ul>
@@ -58,29 +58,52 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- end row -->
+                    <div class="col-lg-12">
+                        <div class="card overflow-hidden m-0">
+                            <div class="row justify-content-center g-0">
+                                <div class="col-lg-6">
+                                    <div class="p-lg-5 p-4 auth-one-bg-small h-100">
+                                        <div class="bg-overlay"></div>
+                                        <div class="position-relative h-100 d-flex flex-column">
+                                            <div class="mb-4 text-center">
+                                                <img class="mb-1" src="{{ URL::asset('build/images/google.png') }}"alt="Google API" height="70">
+                                                <h5 class="mb-2">Google API verified</h5>
+                                                <h2>More than a free trial</h2>
+                                                <h2 class="col--grad-green">An opportunity for better traffic</h2>
+                                                <h5 class="mt-3 fs-14 fw-medium">We help you block fake clicks, bots, and invalid traffic. And we’re ready to show you the data for all this with automated reports. All set up and ready to 🚀 in minutes.</h5>
+                                                <h5 class="mt-4">Easy Installation, No developer needed</h5>
+                                            </div>
+                                            <div class="mt-auto">
+                                                <div class="mb-3">
+                                                    <i class="ri-double-quotes-l display-5 text-success"></i>
+                                                </div>
 
-                <div class="row justify-content-center">
-                    <div class="col-md-8 col-lg-6 col-xl-5">
-                        <div class="card mt-4">
-
-                            <div class="card-body p-4">
-                                <div class="text-center mt-2">
-                                    <h5 class="text-primary">Create New Account</h5>
-                                    <p class="text-muted">Get your free velzon account now</p>
+                                                <div id="qoutescarouselIndicators" class="carousel slide"
+                                                     data-bs-ride="carousel">
+                                                    <div class="carousel-indicators">
+                                                        <button type="button" data-bs-target="#qoutescarouselIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                                        <button type="button" data-bs-target="#qoutescarouselIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                                        <button type="button" data-bs-target="#qoutescarouselIndicators"data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                                    </div>
+                                                    <div class="carousel-inner text-center text-black-50 pb-5">
+                                                        <div class="carousel-item active" wire:ignore.self>
+                                                            <p class="fs-15 fst-italic">"Just copy and paste a few lines of code into your website."</p>
+                                                        </div>
+                                                        <div class="carousel-item" wire:ignore.self>
+                                                            <p class="fs-15 fst-italic">"Just copy and paste a few lines of code into your website."</p>
+                                                        </div>
+                                                        <div class="carousel-item" wire:ignore.self>
+                                                            <p class="fs-15 fst-italic">"Just copy and paste a few lines of code into your website."</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                @livewire('register-form')
+
                             </div>
-                            <!-- end card body -->
                         </div>
-                        <!-- end card -->
-
-                        <div class="mt-4 text-center">
-                            <p class="mb-0">Already have an account ? <a href="auth-signin-basic"
-                                    class="fw-semibold text-primary text-decoration-underline"> Signin </a> </p>
-                        </div>
-
                     </div>
                 </div>
                 <!-- end row -->
