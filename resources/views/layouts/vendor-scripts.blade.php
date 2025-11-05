@@ -8,3 +8,5 @@
 @yield('script-bottom')
 <!-- Livewire Scripts -->
 @livewireScripts
+<!-- Component Scripts -->
+@stack('component-script')

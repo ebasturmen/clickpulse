@@ -257,5 +257,11 @@ return [
     "register-step-my-account" => "Hesabım",
     "register-step-subscription" => "Abonelik",
     "register-step-payment-information" => "Ödeme Bilgileri",
+    "website-required" => "Web sitesi alanı zorunludur.",
+    "email-unique" => "Bu e-posta adresi zaten kayıtlı.",
+    "name-required" => "Ad alanı zorunludur.",
+    "surname-required" => "Soyad alanı zorunludur.",
+    "plan-required" => "Lütfen bir plan seçin.",
+    "payment-method-required" => "Ödeme yöntemi gereklidir.",
 ];
 ?>

@@ -257,5 +257,11 @@ return [
     "register-step-my-account" => "My Account",
     "register-step-subscription" => "Subscription",
     "register-step-payment-information" => "Payment Information",
+    "website-required" => "The website field is required.",
+    "email-unique" => "This email is already registered.",
+    "name-required" => "The name field is required.",
+    "surname-required" => "The surname field is required.",
+    "plan-required" => "Please select a plan.",
+    "payment-method-required" => "Payment method is required.",
 ];
 ?>
