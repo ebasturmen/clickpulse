@@ -10,23 +10,18 @@ use Illuminate\Support\Facades\DB;
 
 class RegisterForm extends Component
 {
-    public $step = 1;
-    
+    public $step = 2;
+
     // Step 1: Account Information
     public $website = '';
     public $email = '';
     public $password = '';
-    
+
     // Step 2: Subscription
     public $selected_plan_id = null;
     public $selected_plan = null;
     public $payment_term = 'month'; // 'month' or 'year'
-    
-    // Step 3: Payment Information
-    public $name = '';
-    public $surname = '';
-    public $payment_method_id = '';
-    
+
     public $loading = false;
 
     protected $rules = [
@@ -34,9 +29,6 @@ class RegisterForm extends Component
         'email' => 'required|string|email|max:255|unique:users',
         'password' => 'required|string|min:8',
         'selected_plan_id' => 'nullable',
-        'name' => 'required|string|max:255',
-        'surname' => 'required|string|max:255',
-        'payment_method_id' => 'required|string',
     ];
 
     protected function messages()
@@ -49,9 +41,6 @@ class RegisterForm extends Component
             'password.required' => __('global.password') . ' ' . __('global.is_required'),
             'password.min' => __('global.password_min'),
             'selected_plan_id.required' => __('auth.plan_required'),
-            'name.required' => __('global.name') . ' ' . __('global.is_required'),
-            'surname.required' => __('global.surname') . ' ' . __('global.is_required'),
-            'payment_method_id.required' => __('auth.payment_method_required'),
         ];
     }
 
@@ -63,38 +52,31 @@ class RegisterForm extends Component
 
     protected function loadDefaultPlan()
     {
-        // Load first available plan or default plan
-        // Adjust this query based on your Plan model structure
-        try {
-            if (DB::getSchemaBuilder()->hasTable('plans')) {
-                $plan = DB::table('plans')->where('is_active', true)->orderBy('price')->first();
-                
-                if ($plan) {
+        $plan = DB::table('plans')
+                        ->where('id', 1)
+                        ->first();
+
+        if ($plan) {
                     $this->selected_plan_id = $plan->id;
                     $this->selected_plan = (object) $plan;
                     $this->loadPlan();
-                }
-            }
-        } catch (\Exception $e) {
-            // Plan table doesn't exist, use default values
-            $this->selected_plan = (object) [
-                'id' => 1,
-                'title' => 'Basic Plan',
-                'price' => 0,
-                'features' => collect([]),
-            ];
         }
     }
 
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
-        
+
         // Step değiştiğinde event dispatch et
         if ($propertyName === 'step') {
             $this->dispatch('step-updated', step: $this->step);
         }
-        
+
+        // Payment term değiştiğinde Basic planı yeniden yükle
+        if ($propertyName === 'payment_term') {
+            $this->loadDefaultPlan();
+        }
+
         // Plan değiştiğinde plan bilgilerini yükle
         if ($propertyName === 'selected_plan_id') {
             $this->loadPlan();
@@ -107,7 +89,7 @@ class RegisterForm extends Component
             try {
                 if (DB::getSchemaBuilder()->hasTable('plans')) {
                     $plan = DB::table('plans')->where('id', $this->selected_plan_id)->first();
-                    
+
                     if ($plan) {
                         // Load plan features if table exists
                         $features = collect([]);
@@ -118,7 +100,7 @@ class RegisterForm extends Component
                                 ->select('features.*', 'plan_feature.charges')
                                 ->get();
                         }
-                        
+
                         $plan->features = $features;
                         $this->selected_plan = (object) $plan;
                     }
@@ -151,8 +133,6 @@ class RegisterForm extends Component
         }
 
         $this->loadPlan();
-        $this->step = 3;
-        $this->dispatch('step-updated', step: $this->step);
     }
 
     public function backStep()
@@ -163,66 +143,6 @@ class RegisterForm extends Component
         }
     }
 
-    public function finishRegistration()
-    {
-        $this->validate([
-            'name' => 'required|string|max:255',
-            'surname' => 'required|string|max:255',
-            'payment_method_id' => 'required|string',
-        ]);
-
-        $this->loading = true;
-
-        try {
-            DB::beginTransaction();
-
-            // Create user
-            $user = User::create([
-                'name' => $this->name . ' ' . $this->surname,
-                'email' => $this->email,
-                'password' => Hash::make($this->password),
-            ]);
-
-            // Create Stripe customer and setup subscription with 14-day trial
-            $user->createAsStripeCustomer();
-
-            // Add payment method
-            $user->updateDefaultPaymentMethod($this->payment_method_id);
-
-            // Get plan's Stripe price ID
-            $stripePriceId = config('services.stripe.default_price_id', env('STRIPE_PRICE_ID'));
-            
-            if ($this->selected_plan_id && DB::getSchemaBuilder()->hasTable('plans')) {
-                $plan = DB::table('plans')->where('id', $this->selected_plan_id)->first();
-                if ($plan && isset($plan->stripe_price_id)) {
-                    $stripePriceId = $plan->stripe_price_id;
-                }
-            }
-
-            if ($stripePriceId) {
-                // Create subscription with 14-day trial
-                $user->newSubscription('default', $stripePriceId)
-                    ->trialDays(14)
-                    ->create($this->payment_method_id);
-            }
-
-            DB::commit();
-
-            // Log the user in
-            Auth::login($user);
-
-            // Redirect to home
-            return redirect()->intended(\App\Providers\RouteServiceProvider::HOME);
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            \Log::error('Registration failed: ' . $e->getMessage());
-            
-            $this->addError('registration', __('auth.registration_failed'));
-            $this->loading = false;
-        }
-    }
-
     public function render()
     {
         // Load plan features if plan is selected
@@ -230,8 +150,6 @@ class RegisterForm extends Component
             $this->loadPlan();
         }
 
-        return view('livewire.register-form', [
-            'stripeKey' => config('services.stripe.key', env('STRIPE_KEY')),
-        ]);
+        return view('livewire.register-form');
     }
 }
